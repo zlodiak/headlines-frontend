@@ -60,7 +60,7 @@ function App() {
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
           />
-          <button className="search-button" onClick={handleSearch} disabled="{}">Сгенерировать заголовки</button>
+          <button className="search-button" onClick={handleSearch} disabled={!searchValue}>Сгенерировать заголовки</button>
         </div>
 
         {hasSearched && (

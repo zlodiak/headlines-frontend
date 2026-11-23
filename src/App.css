@@ -50,6 +50,12 @@
   background-color: #3d4148;
 }
 
+.search-button:disabled {
+  opacity: .5;
+  cursor: pointer;
+  cursor: default;
+}
+
 .snackbar {
   position: fixed;
   bottom: 24px;
