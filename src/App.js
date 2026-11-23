@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import logo from './logo.svg';
 import loadingGif from './loading.gif';
 import './App.css';
 
@@ -68,7 +67,7 @@ function App() {
           <button className="search-button" onClick={handleSearch} disabled={!searchValue || isLoading}>
             {isLoading ? (
               <span className="spinner">
-                <img className="loader" src={loadingGif} />
+                <img className="loader" src={loadingGif} alt="" />
               </span>
             ) : (
               'Сгенерировать заголовки'
