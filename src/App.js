@@ -5,8 +5,16 @@ import './App.css';
 function App() {
   const [searchValue, setSearchValue] = useState('');
 
-  const handleSearch = () => {
-    console.log('Search:', searchValue);
+  const handleSearch = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/generate-headlines?searchValue=${encodeURIComponent(searchValue)}`
+      );
+      const data = await response.json();
+      console.log('Headlines:', data);
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
   return (
