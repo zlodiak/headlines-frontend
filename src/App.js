@@ -59,6 +59,7 @@ function App() {
         <div className="search-container">
           <input
             type="text"
+            maxlength='100'
             className="search-input"
             placeholder="Введите тему..."
             value={searchValue}
