@@ -12,6 +12,13 @@ function App() {
       );
       const data = await response.json();
       console.log('Headlines:', data);
+      
+      if (data.data) {
+        const themes = data.data;
+        console.log('themes', themes);
+      } else {
+        console.log('error recieving data');
+      }
     } catch (error) {
       console.error('Error:', error);
     }
