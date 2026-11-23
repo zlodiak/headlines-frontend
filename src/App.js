@@ -16,6 +16,7 @@ function App() {
       const response = await fetch(
         `http://localhost:5000/api/generate-headlines?searchValue=${encodeURIComponent(searchValue)}`
       );
+
       const data = await response.json();
       console.log('Headlines:', data);
       
@@ -24,9 +25,13 @@ function App() {
         setHasSearched(true);
       } else {
         console.log('error recieving data');
+        setThemes([]);
+        setHasSearched(true);        
       }
     } catch (error) {
       console.error('Error:', error);
+      setThemes([]);
+      setHasSearched(true);      
     }
   };
 
