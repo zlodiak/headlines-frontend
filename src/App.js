@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import logo from './logo.svg';
+import loadingGif from './loading.gif';
 import './App.css';
 
 function App() {
@@ -7,6 +8,7 @@ function App() {
   const [themes, setThemes] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (error) {
@@ -20,9 +22,10 @@ function App() {
   }, [themes]);
 
   const handleSearch = async () => {
+    setIsLoading(true);
     try {
       const response = await fetch(
-        `http://localhost:5000/api/generate-headlines?searchValue=${encodeURIComponent(searchValue)}`
+        `${process.env.REACT_APP_API_URL}/api/generate-headlines?searchValue=${encodeURIComponent(searchValue)}`
       );
 
       const data = await response.json();
@@ -42,6 +45,8 @@ function App() {
       setThemes([]);
       setHasSearched(true);
       setError('Не удалось загрузить данные. Повторите попытку.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -60,7 +65,15 @@ function App() {
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
           />
-          <button className="search-button" onClick={handleSearch} disabled={!searchValue}>Сгенерировать заголовки</button>
+          <button className="search-button" onClick={handleSearch} disabled={!searchValue || isLoading}>
+            {isLoading ? (
+              <span className="spinner">
+                <img className="loader" src={loadingGif} />
+              </span>
+            ) : (
+              'Сгенерировать заголовки'
+            )}
+          </button>
         </div>
 
         {hasSearched && (
