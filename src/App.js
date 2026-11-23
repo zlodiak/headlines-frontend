@@ -6,6 +6,14 @@ function App() {
   const [searchValue, setSearchValue] = useState('');
   const [themes, setThemes] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => setError(null), 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [error]);
 
   useEffect(() => {
     console.log('themes updated:', themes);
@@ -27,11 +35,13 @@ function App() {
         console.log('error recieving data');
         setThemes([]);
         setHasSearched(true);        
+        setError('Некорректное название темы. Повторите попытку.');
       }
     } catch (error) {
       console.error('Error:', error);
       setThemes([]);
-      setHasSearched(true);      
+      setHasSearched(true);
+      setError('Не удалось загрузить данные. Повторите попытку.');
     }
   };
 
@@ -50,13 +60,12 @@ function App() {
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
           />
-          <button className="search-button" onClick={handleSearch}>Сгенерировать заголовки</button>
+          <button className="search-button" onClick={handleSearch} disabled="{}">Сгенерировать заголовки</button>
         </div>
 
         {hasSearched && (
           <div className="results-container">
             <pre>
-              {/* {JSON.stringify(themes, null, 2)} */}
               <ol>
                 {Object.entries(themes).map(([key, value]) => (
                   <li key={key}>
@@ -68,6 +77,13 @@ function App() {
           </div>
         )}
       </main>
+
+      {error && (
+        <div className="snackbar" role="alert">
+          <span>{error}</span>
+          <button className="snackbar-close" onClick={() => setError(null)}>×</button>
+        </div>
+      )}
 
       <footer className="App-footer">
         (c) 2026
