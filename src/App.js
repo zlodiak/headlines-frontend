@@ -1,9 +1,15 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
 function App() {
   const [searchValue, setSearchValue] = useState('');
+  const [themes, setThemes] = useState([]);
+  const [hasSearched, setHasSearched] = useState(false);
+
+  useEffect(() => {
+    console.log('themes updated:', themes);
+  }, [themes]);
 
   const handleSearch = async () => {
     try {
@@ -14,8 +20,8 @@ function App() {
       console.log('Headlines:', data);
       
       if (data.data) {
-        const themes = data.data;
-        console.log('themes', themes);
+        setThemes(data.data);
+        setHasSearched(true);
       } else {
         console.log('error recieving data');
       }
@@ -42,9 +48,20 @@ function App() {
           <button className="search-button" onClick={handleSearch}>Сгенерировать заголовки</button>
         </div>
 
-        <div className="results-container">
-          results
-        </div>
+        {hasSearched && (
+          <div className="results-container">
+            <pre>
+              {/* {JSON.stringify(themes, null, 2)} */}
+              <ol>
+                {Object.entries(themes).map(([key, value]) => (
+                  <li key={key}>
+                    {value}
+                  </li>
+                ))}
+              </ol>              
+            </pre>
+          </div>
+        )}
       </main>
 
       <footer className="App-footer">
