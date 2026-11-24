@@ -24,7 +24,7 @@ function App() {
     setIsLoading(true);
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/generate-headlines?searchValue=${encodeURIComponent(searchValue)}`
+        `${process.env.APP_API_URL}/api/generate-headlines?searchValue=${encodeURIComponent(searchValue)}`
       );
 
       const data = await response.json();
